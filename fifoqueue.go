@@ -43,14 +43,20 @@ func (q *Queue) Insert(v interface{}) {
 }
 
 func (q *Queue) Front() *list.Element {
+	q.lock.RLock()
+	defer q.lock.RUnlock()
 	return q.list.Front()
 }
 
 func (q *Queue) Back() *list.Element {
+	q.lock.RLock()
+	defer q.lock.RUnlock()
 	return q.list.Back()
 }
 
 func (q *Queue) Length() int {
+	q.lock.RLock()
+	defer q.lock.RUnlock()
 	return q.list.Len()
 }
 
