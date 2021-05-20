@@ -66,6 +66,17 @@ func (q *Queue) cap() int {
 	return q.capacity
 }
 
+func (q *Queue) Exists(v interface{}) bool {
+	q.capLock.RLock()
+	defer q.capLock.RUnlock()
+	for e := q.list.Front(); e != nil; e = e.Next() {
+		if v == e.Value {
+			return true
+		}
+	}
+	return false
+}
+
 func (q *Queue) SetCapacity(cap int) error {
 	if q.cap() <= 0 {
 		return errNegativeCapacity
