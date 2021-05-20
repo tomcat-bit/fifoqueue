@@ -9,7 +9,7 @@ import (
 // Simple example use of fifoqueue
 
 func main() {
-	q, err := fifoqueue.NewFIFOQueue(0)
+	q, err := fifoqueue.NewFIFOQueue(3)
 	if err != nil {
 		panic(err)
 	}
@@ -18,6 +18,10 @@ func main() {
 		elem := fmt.Sprintf("kake %d", i)
 		q.Insert(elem)
 		log.Println(q.Exists(elem))
+	}
+
+	for _, e := range q.Elements() {
+		log.Println(e)	
 	}
 
 	log.Println(q.Exists("k"))

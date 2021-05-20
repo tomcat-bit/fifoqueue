@@ -42,16 +42,16 @@ func (q *Queue) Insert(v interface{}) {
 	q.list.PushBack(v)
 }
 
-func (q *Queue) Front() *list.Element {
+func (q *Queue) Front() interface{} {
 	q.lock.RLock()
 	defer q.lock.RUnlock()
-	return q.list.Front()
+	return q.list.Front().Value
 }
 
-func (q *Queue) Back() *list.Element {
+func (q *Queue) Back() interface{} {
 	q.lock.RLock()
 	defer q.lock.RUnlock()
-	return q.list.Back()
+	return q.list.Back().Value
 }
 
 func (q *Queue) Length() int {
@@ -64,6 +64,16 @@ func (q *Queue) cap() int {
 	q.capLock.RLock()
 	defer q.capLock.RUnlock()
 	return q.capacity
+}
+
+func (q *Queue) Elements() []interface{} {
+	elements := make([]interface{}, 0)
+	q.lock.RLock()
+	defer q.lock.RUnlock()
+	for e := q.list.Front(); e != nil; e = e.Next() {
+		elements = append(elements, e)
+	}
+	return elements
 }
 
 func (q *Queue) Exists(v interface{}) bool {
@@ -87,3 +97,4 @@ func (q *Queue) SetCapacity(cap int) error {
 	q.capacity = cap
 	return nil
 }
+
