@@ -77,8 +77,8 @@ func (q *Queue) Elements() []interface{} {
 }
 
 func (q *Queue) Exists(v interface{}) bool {
-	q.capLock.RLock()
-	defer q.capLock.RUnlock()
+	q.lock.RLock()
+	defer q.lock.RUnlock()
 	for e := q.list.Front(); e != nil; e = e.Next() {
 		if v == e.Value {
 			return true
